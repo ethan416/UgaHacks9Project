@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Multiselect from 'multiselect-react-dropdown';
+import Select from "react-select";
 import { useState } from 'react';
 import { setSelectionRange } from '@testing-library/user-event/dist/utils';
 
@@ -17,9 +18,9 @@ function App() {
   ]
 
   const [protein, setProtein] = useState([]);
-  const handleProteinOption = (protein) => {
-    setProtein(protein);
-  }
+  const handleProteinOption = (selectedProtein) => {
+    setProtein(selectedProtein);
+  };
 
   const vegetableOptions = [
     {value: "beans", label: "Beans"},
@@ -63,12 +64,28 @@ function App() {
     setProtein(dairy);
   }
 
+  function submit() {
+    var result = [];
+    var drop = document.getElementById('proteinSel');
+    console.log(drop.options.length);
+    
+  }
+
   return (
     <div className="App">
       <p>College Cooking Guide</p>
       <div id="dropDown">
         <div class="indDrop">
-          <Multiselect options={dairyOptions} displayValue="label">
+          <Select id = "proteinSel"  displayValue="label" placeholder="Protein"
+          options={proteinOptions}
+          value = {protein}
+          onChange = {handleProteinOption}
+          isMulti={true}
+        />
+        </div>
+
+        <div class="indDrop">
+          <Multiselect options={vegetableOptions} displayValue="label" placeholder="Vegetables">
           isObject = {false}
           onRemove= {(event) => {
           console.log(event);
@@ -80,7 +97,7 @@ function App() {
         </div>
 
         <div class="indDrop">
-          <Multiselect options={vegetableOptions} displayValue="label">
+          <Multiselect options={grainOptions} displayValue="label" placeholder="Grains">
           isObject = {false}
           onRemove= {(event) => {
           console.log(event);
@@ -92,19 +109,7 @@ function App() {
         </div>
 
         <div class="indDrop">
-          <Multiselect options={grainOptions} displayValue="label">
-          isObject = {false}
-          onRemove= {(event) => {
-          console.log(event);
-          }}
-          onSelect= {(event) => {
-          console.log(event);
-          }}
-      </Multiselect>
-        </div>
-
-        <div class="indDrop">
-          <Multiselect options={dairyOptions} displayValue="label">
+          <Multiselect options={dairyOptions} displayValue="label" placeholder="Dairy">
           isObject = {false}
           onRemove= {(event) => {
           console.log(event);
@@ -115,6 +120,11 @@ function App() {
       </Multiselect>
         </div>
       </div>
+      <div>
+      <button onClick={submit}>
+        Get My Recipe!
+      </button>   
+</div>
     </div>
   );
 }
